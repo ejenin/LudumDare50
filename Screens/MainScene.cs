@@ -13,6 +13,8 @@ public class MainScene : Node
 	private OnScreenTimer _timer;
 	private SneezeScale _scale;
 	private Timer _sneezeTimer;
+	private Librarian _librarian;
+	
 	private const float _playerSneezingDelta = 0.065f;
 	
 	public override void _Ready()
@@ -21,6 +23,7 @@ public class MainScene : Node
 		_scale = GetNode<SneezeScale>("SneezeScale");
 		_timer = GetNode<OnScreenTimer>("OnScreenTimer");
 		_sneezeTimer = GetNode<Timer>("Timer");
+		_librarian = GetNode<Librarian>("Librarian");
 
 		StartTimer();
 	}
@@ -41,6 +44,7 @@ public class MainScene : Node
 	
 	private void _on_SneezeScale_OnNotSneeze()
 	{
+		_librarian.Walk();
 		StartTimer();
 	}
 
@@ -56,6 +60,7 @@ public class MainScene : Node
 	private void _on_SneezeScale_OnSneeze()
 	{
 		_scale.Reset();
+		_librarian.Rage();
 		StartTimer();
 	}
 
@@ -78,5 +83,6 @@ public class MainScene : Node
 		}
 		
 		_scale.InitSneeze(delta);
+		_librarian.Stare();
 	}
 }
