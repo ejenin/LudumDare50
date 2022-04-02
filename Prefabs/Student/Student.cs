@@ -21,6 +21,7 @@ public class Student : Node2D
 	public void PrepareSneeze() => _state = StudentState.PreparingToSneeze;
 	public void Sneeze() => _state = StudentState.Sneezing;
 	public void Read() => _state = StudentState.Reading;
+	public void Glad() => _state = StudentState.Glad;
 
 	private enum StudentState
 	{
@@ -28,5 +29,6 @@ public class Student : Node2D
 		PreparingToSneeze = 1,
 		Sneezing = 2,
 		Fearing = 3,
+		Glad = 4,
 	}
 }

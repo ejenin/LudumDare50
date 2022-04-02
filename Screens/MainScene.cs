@@ -17,6 +17,7 @@ public class MainScene : Node
 	private Label _gameOverLabel;
 	private Label _startLabel;
 	private Timer _hideStartTimer;
+	private Label _winLabel;
 	
 	private const float PlayerSneezingDelta = 0.065f;
 	
@@ -30,6 +31,7 @@ public class MainScene : Node
 		_startLabel = GetNode<Label>("GameplayInterface/StartLabel");
 		_hideStartTimer = GetNode<Timer>("GameplayInterface/HideStartGameLabelTimer");
 		_prompt = GetNode<PressKeyPrompt>("GameplayInterface/PressKeyPrompt");
+		_winLabel = GetNode<Label>("GameplayInterface/WinLabel");
 		
 		_menuInterfaceRoot = GetNode<Node2D>("MenuInterface");
 		_sneezeTimer = GetNode<Timer>("Timer");
@@ -122,6 +124,17 @@ public class MainScene : Node
 		_student.PrepareSneeze();
 	}
 	
+	private void _on_OnScreenTimer_TimeUp()
+	{
+		_scale.StopSneezing();
+		_sneezeTimer.Stop();
+		_student.Glad();
+		_onScreenTimer.Stop();
+		_showMenuTimer.Start();
+		_prompt.Visible = false;
+		_winLabel.Visible = true;
+	}
+	
 	private void _on_ShowMenuTimer_timeout()
 	{
 		_gameplayInterfaceRoot.Visible = false;
@@ -131,6 +144,8 @@ public class MainScene : Node
 		_onScreenTimer.Reset();
 		_gameOverLabel.Visible = false;
 		_startLabel.Visible = true;
+		_winLabel.Visible = false;
+		_scale.Reset();
 	}
 	
 	private void _on_HideStartGameLabelTimer_timeout()

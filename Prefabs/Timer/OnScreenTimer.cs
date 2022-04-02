@@ -5,6 +5,12 @@ public class OnScreenTimer : Node
 	private float _time;
 	private Label _label;
 	private bool _working;
+
+	[Export]
+	public float MaxTime = 60f;
+
+	[Signal]
+	public delegate void TimeUp();
 	
 	public override void _Ready()
 	{
@@ -19,11 +25,18 @@ public class OnScreenTimer : Node
 
 	public override void _PhysicsProcess(float delta)
 	{
+		// todo: stop timer when about to sneeze
 		if (_working)
 		{
 			_time += delta;	
 		}
 		UpdateDisplay();
+
+		if (_time >= MaxTime && _working)
+		{
+			EmitSignal(nameof(TimeUp));
+		}
+		
 		base._PhysicsProcess(delta);
 	}
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Prefabs/Timer/OnScreenTimer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Prefabs/SneezeScale/SneezeScale.tscn" type="PackedScene" id=2]
@@ -6,23 +6,32 @@
 [ext_resource path="res://Prefabs/Librarian/Librarian.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Prefabs/Student/Student.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Prefabs/PressKeyPrompt/PressKeyPrompt.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Sprites/background-export.png" type="Texture" id=7]
 
 [node name="MainScene" type="Node"]
 script = ExtResource( 3 )
 
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 540.0
+margin_bottom = 940.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Librarian" parent="." instance=ExtResource( 4 )]
-position = Vector2( 109, 340 )
+position = Vector2( 308, 228 )
 StartPath = NodePath("../LibrarianStart")
 EndPath = NodePath("../LibrarianEnd")
 
 [node name="LibrarianStart" type="Position2D" parent="."]
-position = Vector2( 62, 402 )
+position = Vector2( 67, 460 )
 
 [node name="LibrarianEnd" type="Position2D" parent="."]
-position = Vector2( 303, 402 )
+position = Vector2( 300, 460 )
 
 [node name="Student" parent="." instance=ExtResource( 5 )]
-position = Vector2( 73, 561 )
+position = Vector2( 79, 605 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
@@ -63,11 +72,22 @@ __meta__ = {
 one_shot = true
 
 [node name="StartLabel" type="Label" parent="GameplayInterface"]
-margin_left = 203.0
-margin_top = 491.0
-margin_right = 243.0
-margin_bottom = 505.0
+margin_left = 227.0
+margin_top = 262.0
+margin_right = 267.0
+margin_bottom = 276.0
 text = "Start!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WinLabel" type="Label" parent="GameplayInterface"]
+visible = false
+margin_left = 229.0
+margin_top = 455.0
+margin_right = 269.0
+margin_bottom = 469.0
+text = "Win!"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -92,6 +112,7 @@ wait_time = 2.0
 one_shot = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="TimeUp" from="GameplayInterface/OnScreenTimer" to="." method="_on_OnScreenTimer_TimeUp"]
 [connection signal="OnNotSneeze" from="GameplayInterface/SneezeScale" to="." method="_on_SneezeScale_OnNotSneeze"]
 [connection signal="OnSneeze" from="GameplayInterface/SneezeScale" to="." method="_on_SneezeScale_OnSneeze"]
 [connection signal="timeout" from="GameplayInterface/HideStartGameLabelTimer" to="." method="_on_HideStartGameLabelTimer_timeout"]
