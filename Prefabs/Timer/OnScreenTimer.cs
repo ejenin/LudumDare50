@@ -5,6 +5,10 @@ public class OnScreenTimer : Node
 	private float _time;
 	private Label _label;
 	private bool _working;
+	private SneezeScale _scale;
+	
+	[Export]
+	public NodePath SneezeScale { get; set; }
 
 	[Export]
 	public float MaxTime = 60f;
@@ -15,6 +19,7 @@ public class OnScreenTimer : Node
 	public override void _Ready()
 	{
 		_label = GetNode<Label>("Label");
+		_scale = GetNode<SneezeScale>(SneezeScale);
 		_time = 0f;
 		_working = false;
 	}
@@ -25,10 +30,14 @@ public class OnScreenTimer : Node
 
 	public override void _PhysicsProcess(float delta)
 	{
-		// todo: stop timer when about to sneeze
 		if (_working)
 		{
-			_time += delta;	
+			var toAdd = delta;
+			if (_scale.Sneezing)
+			{
+				toAdd *= 0.15f;
+			}
+			_time += toAdd;	
 		}
 		UpdateDisplay();
 
