@@ -1,6 +1,6 @@
 using Godot;
 
-public class Timer : Node
+public class OnScreenTimer : Node
 {
 	private float _time;
 	private Label _label;
@@ -10,6 +10,8 @@ public class Timer : Node
 		_label = GetNode<Label>("Label");
 		_time = 0f;
 	}
+
+	public float Time => _time;
 
 	public override void _PhysicsProcess(float delta)
 	{
