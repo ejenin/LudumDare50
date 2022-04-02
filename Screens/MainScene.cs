@@ -14,8 +14,10 @@ public class MainScene : Node
 	private SneezeScale _scale;
 	private Timer _sneezeTimer;
 	private Librarian _librarian;
+	private Student _student;
+	private PressKeyPrompt _prompt;
 	
-	private const float _playerSneezingDelta = 0.065f;
+	private const float PlayerSneezingDelta = 0.065f;
 	
 	public override void _Ready()
 	{
@@ -24,6 +26,9 @@ public class MainScene : Node
 		_timer = GetNode<OnScreenTimer>("OnScreenTimer");
 		_sneezeTimer = GetNode<Timer>("Timer");
 		_librarian = GetNode<Librarian>("Librarian");
+		_student = GetNode<Student>("Student");
+		_prompt = GetNode<PressKeyPrompt>("PressKeyPrompt");
+		_prompt.Visible = false;
 
 		StartTimer();
 	}
@@ -45,6 +50,8 @@ public class MainScene : Node
 	private void _on_SneezeScale_OnNotSneeze()
 	{
 		_librarian.Walk();
+		_student.Read();
+		_prompt.Visible = false;
 		StartTimer();
 	}
 
@@ -52,16 +59,17 @@ public class MainScene : Node
 	{
 		if (@event.IsActionPressed("ui_accept"))
 		{
-			_scale.Subtract(_playerSneezingDelta);
+			_scale.Subtract(PlayerSneezingDelta);
 		}
 		base._Input(@event);
 	}
 
 	private void _on_SneezeScale_OnSneeze()
 	{
-		_scale.Reset();
 		_librarian.Rage();
-		StartTimer();
+		_student.Sneeze();
+		_timer.Stop();
+		_prompt.Visible = false;
 	}
 
 	private void StartTimer()
@@ -82,7 +90,9 @@ public class MainScene : Node
 			delta = 0.0055f;
 		}
 		
+		_prompt.Visible = true;
 		_scale.InitSneeze(delta);
 		_librarian.Stare();
+		_student.PrepareSneeze();
 	}
 }

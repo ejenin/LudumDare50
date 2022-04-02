@@ -62,6 +62,7 @@ public class SneezeScale : Node2D
 
 	public void InitSneeze(float newDelta)
 	{
+		// todo: mb start with fixed percent on harder difficulty
 		_currentDelta = newDelta;
 		_sneezing = true;
 	}

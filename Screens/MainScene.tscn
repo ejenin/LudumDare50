@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Prefabs/Timer/OnScreenTimer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Prefabs/SneezeScale/SneezeScale.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Screens/MainScene.cs" type="Script" id=3]
 [ext_resource path="res://Prefabs/Librarian/Librarian.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Prefabs/Student/Student.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Prefabs/PressKeyPrompt/PressKeyPrompt.tscn" type="PackedScene" id=6]
 
 [node name="MainScene" type="Node"]
 script = ExtResource( 3 )
@@ -22,10 +24,16 @@ StartPath = NodePath("../LibrarianStart")
 EndPath = NodePath("../LibrarianEnd")
 
 [node name="LibrarianStart" type="Position2D" parent="."]
-position = Vector2( 62, 479 )
+position = Vector2( 62, 402 )
 
 [node name="LibrarianEnd" type="Position2D" parent="."]
-position = Vector2( 303, 479 )
+position = Vector2( 303, 402 )
+
+[node name="Student" parent="." instance=ExtResource( 5 )]
+position = Vector2( 73, 561 )
+
+[node name="PressKeyPrompt" parent="." instance=ExtResource( 6 )]
+position = Vector2( 142, 833 )
 
 [connection signal="OnNotSneeze" from="SneezeScale" to="." method="_on_SneezeScale_OnNotSneeze"]
 [connection signal="OnSneeze" from="SneezeScale" to="." method="_on_SneezeScale_OnSneeze"]
