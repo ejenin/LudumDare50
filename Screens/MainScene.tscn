@@ -10,16 +10,8 @@
 [node name="MainScene" type="Node"]
 script = ExtResource( 3 )
 
-[node name="OnScreenTimer" parent="." instance=ExtResource( 1 )]
-
-[node name="SneezeScale" parent="." instance=ExtResource( 2 )]
-position = Vector2( 450, 164 )
-
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
-
 [node name="Librarian" parent="." instance=ExtResource( 4 )]
-position = Vector2( 178, 20 )
+position = Vector2( 109, 340 )
 StartPath = NodePath("../LibrarianStart")
 EndPath = NodePath("../LibrarianEnd")
 
@@ -32,9 +24,75 @@ position = Vector2( 303, 402 )
 [node name="Student" parent="." instance=ExtResource( 5 )]
 position = Vector2( 73, 561 )
 
-[node name="PressKeyPrompt" parent="." instance=ExtResource( 6 )]
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="GameplayInterface" type="Node2D" parent="."]
+visible = false
+
+[node name="OnScreenTimer" parent="GameplayInterface" instance=ExtResource( 1 )]
+
+[node name="PressKeyPrompt" parent="GameplayInterface" instance=ExtResource( 6 )]
 position = Vector2( 142, 833 )
 
-[connection signal="OnNotSneeze" from="SneezeScale" to="." method="_on_SneezeScale_OnNotSneeze"]
-[connection signal="OnSneeze" from="SneezeScale" to="." method="_on_SneezeScale_OnSneeze"]
+[node name="SneezeLabel" type="Label" parent="GameplayInterface"]
+margin_left = 445.0
+margin_top = 110.0
+margin_right = 495.0
+margin_bottom = 124.0
+text = "SNEEZE!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SneezeScale" parent="GameplayInterface" instance=ExtResource( 2 )]
+position = Vector2( 450, 164 )
+
+[node name="GameOverLabel" type="Label" parent="GameplayInterface"]
+visible = false
+margin_left = 198.0
+margin_top = 319.0
+margin_right = 272.0
+margin_bottom = 333.0
+text = "Game over!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HideStartGameLabelTimer" type="Timer" parent="GameplayInterface"]
+one_shot = true
+
+[node name="StartLabel" type="Label" parent="GameplayInterface"]
+margin_left = 203.0
+margin_top = 491.0
+margin_right = 243.0
+margin_bottom = 505.0
+text = "Start!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuInterface" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="MenuInterface"]
+margin_left = 20.0
+margin_top = 205.0
+margin_right = 496.0
+margin_bottom = 253.0
+text = "Label, explaining situation, and rules, very very
+ long 
+and rules, very very long and rules, very very long and rules, very very long"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShowMenuTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="OnNotSneeze" from="GameplayInterface/SneezeScale" to="." method="_on_SneezeScale_OnNotSneeze"]
+[connection signal="OnSneeze" from="GameplayInterface/SneezeScale" to="." method="_on_SneezeScale_OnSneeze"]
+[connection signal="timeout" from="GameplayInterface/HideStartGameLabelTimer" to="." method="_on_HideStartGameLabelTimer_timeout"]
+[connection signal="timeout" from="ShowMenuTimer" to="." method="_on_ShowMenuTimer_timeout"]

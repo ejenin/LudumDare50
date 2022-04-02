@@ -10,10 +10,12 @@ public class OnScreenTimer : Node
 	{
 		_label = GetNode<Label>("Label");
 		_time = 0f;
-		_working = true;
+		_working = false;
 	}
 
 	public float Time => _time;
+
+	public void Start() => _working = true;
 
 	public override void _PhysicsProcess(float delta)
 	{
@@ -26,6 +28,12 @@ public class OnScreenTimer : Node
 	}
 
 	public void Stop() => _working = false;
+
+	public void Reset()
+	{
+		_working = false;
+		_time = 0f;
+	}
 
 	private void UpdateDisplay()
 	{
