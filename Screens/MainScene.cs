@@ -13,6 +13,7 @@ public class MainScene : Node
 	private OnScreenTimer _timer;
 	private SneezeScale _scale;
 	private Timer _sneezeTimer;
+	private const float _playerSneezingDelta = 0.065f;
 	
 	public override void _Ready()
 	{
@@ -42,7 +43,16 @@ public class MainScene : Node
 	{
 		StartTimer();
 	}
-	
+
+	public override void _Input(InputEvent @event)
+	{
+		if (@event.IsActionPressed("ui_accept"))
+		{
+			_scale.Subtract(_playerSneezingDelta);
+		}
+		base._Input(@event);
+	}
+
 	private void _on_SneezeScale_OnSneeze()
 	{
 		_scale.Reset();
@@ -57,14 +67,14 @@ public class MainScene : Node
 	
 	private void _on_Timer_timeout()
 	{
-		var delta = 0.0095f;
+		var delta = 0.006f;
 		if (_timer.Time <= 20f)
 		{
 			delta = 0.005f;
 		}
 		else if (_timer.Time <= 40f)
 		{
-			delta = 0.0075f;
+			delta = 0.0055f;
 		}
 		
 		_scale.InitSneeze(delta);

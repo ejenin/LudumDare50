@@ -49,11 +49,14 @@ public class SneezeScale : Node2D
 
 	public void Subtract(float value)
 	{
-		_fillagePercent -= value;
-		if (_fillagePercent <= 0f)
+		if (_sneezing)
 		{
-			_sneezing = false;
-			EmitSignal(nameof(OnNotSneeze));
+			_fillagePercent -= value;
+			if (_fillagePercent <= 0f)
+			{
+				_sneezing = false;
+				EmitSignal(nameof(OnNotSneeze));
+			}	
 		}
 	}
 
