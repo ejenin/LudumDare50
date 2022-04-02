@@ -25,10 +25,10 @@ StartPath = NodePath("../LibrarianStart")
 EndPath = NodePath("../LibrarianEnd")
 
 [node name="LibrarianStart" type="Position2D" parent="."]
-position = Vector2( 67, 460 )
+position = Vector2( 69, 332 )
 
 [node name="LibrarianEnd" type="Position2D" parent="."]
-position = Vector2( 300, 460 )
+position = Vector2( 291, 332 )
 
 [node name="Student" parent="." instance=ExtResource( 5 )]
 position = Vector2( 79, 605 )

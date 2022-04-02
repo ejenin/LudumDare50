@@ -2,13 +2,12 @@ using Godot;
 
 public class Librarian : Node2D
 {
-	private Label _label;
-	
 	[Export]
 	public NodePath StartPath { get; set; }
 	[Export]
 	public NodePath EndPath { get; set; }
 
+	private AnimatedSprite _animatedSprite;
 	private Position2D _start;
 	private Position2D _end;
 
@@ -18,7 +17,7 @@ public class Librarian : Node2D
 	
 	public override void _Ready()
 	{
-		_label = GetNode<Label>("Label");
+		_animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		_state = LibrarianState.Walking;
 		_walkingTowardsEnd = true;
 
@@ -30,13 +29,31 @@ public class Librarian : Node2D
 		}
 	}
 
-	public void Stare() => _state = LibrarianState.Staring;
-	public void Walk() => _state = LibrarianState.Walking;
-	public void Rage() => _state = LibrarianState.Raging;
+	private void UpdateAnimation()
+	{
+		_animatedSprite.Animation = _state.ToString().ToLower();
+	}
+
+	public void Stare()
+	{
+		_state = LibrarianState.Staring;
+		UpdateAnimation();
+	}
+
+	public void Walk()
+	{
+		_state = LibrarianState.Walking;
+		UpdateAnimation();
+	}
+
+	public void Rage()
+	{
+		_state = LibrarianState.Raging;
+		UpdateAnimation();
+	}
 
 	public override void _PhysicsProcess(float delta)
 	{
-		_label.Text = _state.ToString();
 		if (_state == LibrarianState.Walking && _start != null)
 		{
 			var positionDelta = _walkingTowardsEnd ? _speed : _speed * -1f;
@@ -50,6 +67,8 @@ public class Librarian : Node2D
 			{
 				_walkingTowardsEnd = true;
 			}
+
+			_animatedSprite.FlipH = !_walkingTowardsEnd;
 		}
 
 		base._PhysicsProcess(delta);
